@@ -2,27 +2,30 @@ package com.aaronhible.interview.linkedlist;
 
 public class SinglyLinkedList {
 
-    Element[] elements = new Element[10];
-    // we can't use elements.length because it'll be 10
+    Element head;
     int size = 0;
 
-    /**
-     * @param integer
-     */
-    public void add(final Integer integer) {
-        if (size == elements.length) {
-            throw new IndexOutOfBoundsException("list is full");
-        }
+    public void add(final Integer object) {
+        add(head, null, object);
+    }
 
-        Element previous = null;
-        for (int index = 0; index < elements.length; index++) {
-            if (elements[index] == null) {
-                elements[index] = new Element(integer, previous);
-                break;
+    /**
+     * @param element
+     * @param object
+     */
+    private void add(Element element, final Element previous, final Integer object) {
+        if (element == null) {
+            element = new Element(object, null);
+            if (head == null) {
+                head = element;
             }
-            previous = elements[index];
+            if (previous != null) {
+                previous.setNext(element);
+            }
+            size++;
+            return;
         }
-        size++;
+        add(element.getNext(), element, object);
     }
 
     /**
@@ -33,29 +36,89 @@ public class SinglyLinkedList {
     }
 
     /**
-     * @param integer
+     * @param Integer
      * @return
      */
-    public boolean contains(final Integer integer) {
-        // TODO Auto-generated method stub
-        return false;
+    public boolean contains(final Integer object) {
+        return contains(head, object);
     }
 
     /**
-     * @param one
+     * @param element
+     * @param object
      * @return
      */
-    public Integer next(final Integer one) {
-        // TODO Auto-generated method stub
-        return null;
+    private boolean contains(final Element element, final Integer object) {
+        if (element == null) {
+            return false;
+        }
+        if (object == element.getValue() || object.equals(element.getValue())) {
+            return true;
+        }
+        return contains(element.getNext(), object);
     }
 
     /**
-     * @param one
+     * @param Integer
+     * @return
      */
-    public Integer remove(final Integer one) {
-        return null;
+    public Integer next(final Integer object) {
+        return next(head, object);
+    }
 
+    /**
+     * @param element
+     * @param object
+     * @return
+     */
+    private Integer next(final Element element, final Integer object) {
+        // end of list and not found
+        if (element == null) {
+            return null;
+        }
+        if (object == element.getValue() || object.equals(element.getValue())) {
+            // no next value
+            if (element.getNext() == null) {
+                return null;
+            }
+            return element.getNext().getValue();
+        }
+        return next(element.getNext(), object);
+    }
+
+    /**
+     * @param Integer
+     */
+    public Integer remove(final Integer object) {
+        return remove(head, null, object);
+    }
+
+    /**
+     * @param element
+     * @param previous
+     * @param value
+     * @return
+     */
+    private Integer remove(final Element element, final Element previous, final Integer value) {
+        // element has not been found
+        if (element == null) {
+            return null;
+        }
+
+        // found it lets remove it by unlinking it
+        if (value == element.getValue() || value.equals(element.getValue())) {
+            final Element next = element.getNext();
+            // no previous? because we are removing the head.
+            if (previous == null) {
+                head = null;
+            } else {
+                previous.setNext(next);
+            }
+            size--;
+            return element.getValue();
+        }
+
+        return remove(element.getNext(), element, value);
     }
 
 }

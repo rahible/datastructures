@@ -19,14 +19,14 @@ public class SinglyLinkedListTest {
 
     }
 
-    @Test(expected = IndexOutOfBoundsException.class)
-    public void add_IndexOutOfBoundsException() {
-        final SinglyLinkedList linkedList = new SinglyLinkedList();
-
-        for (int i = 0; i < 100; i++) {
-            linkedList.add(new Integer(i));
-        }
-    }
+    // @Test(expected = IndexOutOfBoundsException.class)
+    // public void add_IndexOutOfBoundsException() {
+    // final SinglyLinkedList linkedList = new SinglyLinkedList();
+    //
+    // for (int i = 0; i < 100; i++) {
+    // linkedList.add(new Integer(i));
+    // }
+    // }
 
     @Test
     public void add() {
@@ -51,7 +51,7 @@ public class SinglyLinkedListTest {
     public void next() {
         final SinglyLinkedList linkedList = new SinglyLinkedList();
         final Integer one = new Integer(1);
-        final Integer two = new Integer(1);
+        final Integer two = new Integer(2);
         linkedList.add(one);
         linkedList.add(two);
         final Integer next = linkedList.next(one);
