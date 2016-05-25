@@ -1,11 +1,11 @@
 package com.aaronhible.interview.linkedlist;
 
-public class Element {
+public class Element<T> {
 
-    private final Integer value;
-    private Element next;
+    private final T value;
+    private Element<T> next;
 
-    public Element(final Integer value, final Element next) {
+    public Element(final T value, final Element<T> next) {
         this.value = value;
         this.next = next;
     }
@@ -13,21 +13,21 @@ public class Element {
     /**
      * @return
      */
-    public Integer getValue() {
+    public T getValue() {
         return value;
     }
 
     /**
      * @return
      */
-    public Element getNext() {
+    public Element<T> getNext() {
         return next;
     }
 
     /**
      * @param element
      */
-    public void setNext(final Element element) {
+    public void setNext(final Element<T> element) {
         this.next = element;
     }
 }

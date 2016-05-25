@@ -1,11 +1,11 @@
 package com.aaronhible.interview.linkedlist;
 
-public class SinglyLinkedList {
+public class SinglyLinkedList<T> {
 
-    Element head;
+    Element<T> head;
     int size = 0;
 
-    public void add(final Integer object) {
+    public void add(final T object) {
         add(head, null, object);
     }
 
@@ -13,9 +13,9 @@ public class SinglyLinkedList {
      * @param element
      * @param object
      */
-    private void add(Element element, final Element previous, final Integer object) {
+    private void add(Element<T> element, final Element<T> previous, final T object) {
         if (element == null) {
-            element = new Element(object, null);
+            element = new Element<T>(object, null);
             if (head == null) {
                 head = element;
             }
@@ -39,7 +39,7 @@ public class SinglyLinkedList {
      * @param Integer
      * @return
      */
-    public boolean contains(final Integer object) {
+    public boolean contains(final T object) {
         return contains(head, object);
     }
 
@@ -48,7 +48,7 @@ public class SinglyLinkedList {
      * @param object
      * @return
      */
-    private boolean contains(final Element element, final Integer object) {
+    private boolean contains(final Element<T> element, final T object) {
         if (element == null) {
             return false;
         }
@@ -59,10 +59,10 @@ public class SinglyLinkedList {
     }
 
     /**
-     * @param Integer
+     * @param value
      * @return
      */
-    public Integer next(final Integer object) {
+    public T next(final T object) {
         return next(head, object);
     }
 
@@ -71,7 +71,7 @@ public class SinglyLinkedList {
      * @param object
      * @return
      */
-    private Integer next(final Element element, final Integer object) {
+    private T next(final Element<T> element, final T object) {
         // end of list and not found
         if (element == null) {
             return null;
@@ -87,9 +87,9 @@ public class SinglyLinkedList {
     }
 
     /**
-     * @param Integer
+     * @param value
      */
-    public Integer remove(final Integer object) {
+    public T remove(final T object) {
         return remove(head, null, object);
     }
 
@@ -99,7 +99,7 @@ public class SinglyLinkedList {
      * @param value
      * @return
      */
-    private Integer remove(final Element element, final Element previous, final Integer value) {
+    private T remove(final Element<T> element, final Element<T> previous, final T value) {
         // element has not been found
         if (element == null) {
             return null;
@@ -107,7 +107,7 @@ public class SinglyLinkedList {
 
         // found it lets remove it by unlinking it
         if (value == element.getValue() || value.equals(element.getValue())) {
-            final Element next = element.getNext();
+            final Element<T> next = element.getNext();
             // no previous? because we are removing the head.
             if (previous == null) {
                 head = null;
