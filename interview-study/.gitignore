@@ -1,0 +1,12 @@
+/target
+target
+logs
+*~
+*.log
+*.version
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.wtpmodules
