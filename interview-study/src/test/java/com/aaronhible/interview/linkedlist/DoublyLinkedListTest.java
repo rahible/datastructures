@@ -1,6 +1,7 @@
 package com.aaronhible.interview.linkedlist;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
 
 import org.apache.commons.lang3.RandomStringUtils;
@@ -35,4 +36,31 @@ public class DoublyLinkedListTest {
 
     }
 
+    @Test
+    public void remove_String() {
+        final DoublyLinkedList<String> linkedList = new DoublyLinkedList<>();
+        final String first = RandomStringUtils.randomAlphanumeric(10);
+        final String third = RandomStringUtils.randomAlphanumeric(10);
+        final String second = RandomStringUtils.randomAlphanumeric(10);
+        final String last = RandomStringUtils.randomAlphanumeric(10);
+
+        linkedList.add(first);
+        linkedList.add(second);
+        linkedList.add(third);
+        linkedList.add(last);
+
+        final String removed = linkedList.remove(second);
+        assertEquals(second, removed);
+        assertEquals(3, linkedList.size());
+        assertFalse(linkedList.contains(removed));
+
+        assertEquals(third, linkedList.next(first));
+        assertEquals(last, linkedList.next(third));
+        assertNull(linkedList.next(last));
+
+        assertNull(linkedList.previous(first));
+        assertEquals(first, linkedList.previous(third));
+        assertEquals(third, linkedList.previous(last));
+
+    }
 }
