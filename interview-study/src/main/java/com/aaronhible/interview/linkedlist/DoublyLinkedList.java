@@ -1,7 +1,6 @@
 package com.aaronhible.interview.linkedlist;
 
-public class SinglyLinkedList<T> {
-
+public class DoublyLinkedList<T> {
     Element<T> head;
     int size = 0;
 
@@ -34,6 +33,7 @@ public class SinglyLinkedList<T> {
         }
         if (previous != null) {
             previous.setNext(element);
+            element.setPrevious(previous);
         }
         size++;
         return element;
@@ -158,4 +158,29 @@ public class SinglyLinkedList<T> {
         return element.getValue();
     }
 
+    /**
+     * @param value
+     * @return
+     */
+    public T previous(final T value) {
+        return previous(head, value);
+    }
+
+    /**
+     * @param element
+     * @param previous
+     * @param value
+     */
+    private T previous(final Element<T> element, final T value) {
+        // end of list and value wasn't found
+        if (element == null) {
+            return null;
+        }
+
+        if (equals(element, value)) {
+            return (element.getPrevious() == null) ? null : element.getPrevious().getValue();
+        }
+
+        return previous(element.getNext(), value);
+    }
 }
