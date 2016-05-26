@@ -1,4 +1,4 @@
-package com.aaronhible.interview.linkedlist;
+package com.aaronhible.datastructures.linkedlist;
 
 public abstract class AbstractLinkedList<T> {
 
