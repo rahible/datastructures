@@ -10,16 +10,50 @@ public class DynamicArray {
         array = new Object[capacity];
     }
 
+    /**
+     * Adding to the array is O(1) because we know the size and know where to put the element at the end without
+     * traversing the array. With one exception, expansion of the array which is O(n). Since expansion does not happen
+     * at every insertion, and the array expands exponentially (x2 on each expansion), then the cost can be amortized
+     * leaving the original O(1).
+     *
+     * @param value
+     */
     public void add(final Object value) {
-        resize();
+        expansion();
         array[size++] = value;
+    }
+
+    /**
+     * Adding an element to the middle of the array is an O(n) operation because every time we add other than the end,
+     * the elements in the array must be shifted right.
+     *
+     * @param index
+     * @param value
+     */
+    public void add(final int index, final Object value) {
+        expansion();
+        copyRight(index);
+        array[index] = value;
+        size++;
+    }
+
+    /**
+     * @param index
+     */
+    private void copyRight(final int index) {
+        // start with the size which will be pointing to the index one
+        // past the end of the array.
+        int newIndex = size;
+        while (newIndex > index) {
+            this.array[newIndex] = this.array[--newIndex];
+        }
     }
 
     /**
      *
      */
-    protected void resize() {
-        if (isResizeNeeded()) {
+    private void expansion() {
+        if (isExpansionNeeded()) {
             final Object[] newArray = resizeAndCopy();
             this.array = newArray;
         }
@@ -28,14 +62,15 @@ public class DynamicArray {
     /**
      * @return
      */
-    protected boolean isResizeNeeded() {
+    private boolean isExpansionNeeded() {
+        // not sure how size can ever be greater than array.length???
         return size >= array.length;
     }
 
     /**
      * @param newArray
      */
-    protected Object[] resizeAndCopy() {
+    private Object[] resizeAndCopy() {
         final Object[] newArray = new Object[array.length * 2];
         for (int index = 0; index < array.length; index++) {
             newArray[index] = array[index];
@@ -48,6 +83,9 @@ public class DynamicArray {
     }
 
     /**
+     * The complexity of removal is O(n) because when we remove the element, the other elements must be moved left to
+     * fill in the empty space. The definition of an array include contigeous elements, so no empty spots are allowed.
+     *
      * @param i
      * @return
      */
@@ -55,14 +93,7 @@ public class DynamicArray {
         checkSize(index);
         final Object removal = array[index];
         if (removal != null) {
-            int copyIndex = index;
-            for (; copyIndex < array.length; copyIndex++) {
-                // shift the values left
-                final int nextIndex = copyIndex + 1;
-                if (nextIndex < size) {
-                    array[copyIndex] = array[nextIndex];
-                }
-            }
+            contraction(index);
             // ensure that the last one is null so that the last element isn't repeated
             // and decrement the size
             array[--size] = null;
@@ -71,6 +102,29 @@ public class DynamicArray {
     }
 
     /**
+     * @param index
+     */
+    private void contraction(final int index) {
+        int copyIndex = index;
+        for (; copyIndex < array.length; copyIndex++) {
+            copyLeft(copyIndex);
+        }
+    }
+
+    /**
+     * @param copyIndex
+     */
+    protected void copyLeft(final int copyIndex) {
+        // shift the values left
+        final int nextIndex = copyIndex + 1;
+        if (nextIndex < size) {
+            array[copyIndex] = array[nextIndex];
+        }
+    }
+
+    /**
+     * Getting an element based on the index is 0(n), since the array does not have to be traversed.
+     *
      * @param i
      * @return
      */
@@ -82,7 +136,7 @@ public class DynamicArray {
     /**
      * @param index
      */
-    protected void checkSize(final int index) {
+    private void checkSize(final int index) {
         if (index > size) {
             throw new IndexOutOfBoundsException("index " + index + " is outside of " + (size - 1));
         }

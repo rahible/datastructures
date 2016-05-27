@@ -22,6 +22,43 @@ public class DynamicArrayTest {
 
     }
 
+    @Test
+    public void add_beginning() {
+        final DynamicArray array = buildArray(5);
+        array.add(0, 20);
+
+        assertEquals(6, array.size());
+        assertEquals(20, array.get(0));
+        assertEquals(5, array.get(array.size() - 1));
+        // shifted right
+        assertEquals(1, array.get(1));
+    }
+
+    @Test
+    public void add_middle() {
+        final DynamicArray array = buildArray(5);
+        array.add(2, 20);
+
+        assertEquals(6, array.size());
+        assertEquals(20, array.get(2));
+        assertEquals(5, array.get(array.size() - 1));
+        // didn't shift
+        assertEquals(1, array.get(0));
+    }
+
+    @Test
+    public void add_endExpansion() {
+        final DynamicArray array = buildArray(2);
+        array.add(1, 20);
+
+        assertEquals(3, array.size());
+        assertEquals(20, array.get(1));
+        assertEquals(2, array.get(array.size() - 1));
+        // didn't shift
+        assertEquals(1, array.get(0));
+
+    }
+
     @Test(expected = IndexOutOfBoundsException.class)
     public void remove() {
 
