@@ -2,7 +2,7 @@ package com.aaronhible.datastructures.array;
 
 public class DynamicArray {
 
-    private final Object[] array;
+    private Object[] array;
 
     private int size;
 
@@ -10,23 +10,38 @@ public class DynamicArray {
         array = new Object[capacity];
     }
 
-    // https://www.youtube.com/watch?v=XGJeXLlhfdA#t=2.249206
-
     public void add(final Object value) {
-        if (size < array.length) {
-            array[size] = value;
-            size++;
-        } else {
-            resizeAdd(value);
+        resize();
+        array[size] = value;
+        size++;
+    }
+
+    /**
+     *
+     */
+    protected void resize() {
+        if (isResizeNeeded()) {
+            final Object[] newArray = resizeAndCopy();
+            this.array = newArray;
         }
     }
 
     /**
-     * @param value
+     * @return
      */
-    private void resizeAdd(final Object value) {
-        // TODO Auto-generated method stub
+    protected boolean isResizeNeeded() {
+        return size >= array.length;
+    }
 
+    /**
+     * @param newArray
+     */
+    protected Object[] resizeAndCopy() {
+        final Object[] newArray = new Object[array.length * 2];
+        for (int index = 0; index < array.length; index++) {
+            newArray[index] = array[index];
+        }
+        return newArray;
     }
 
     public int size() {
@@ -38,16 +53,40 @@ public class DynamicArray {
      * @return
      */
     public Object remove(final int index) {
-        return 0;
+        checkSize(index);
+        final Object removal = array[index];
+        if (removal != null) {
+            int copyIndex = index;
+            for (; copyIndex < array.length; copyIndex++) {
+                // shift the values left
+                final int nextIndex = copyIndex + 1;
+                if (nextIndex < size) {
+                    array[copyIndex] = array[nextIndex];
+                }
+            }
+            // ensure that the last one is null so that the last element isn't repeated
+            // and decrement the size
+            array[--size] = null;
+        }
+        return removal;
     }
 
     /**
      * @param i
      * @return
      */
-    public Integer get(final int idex) {
-        // TODO Auto-generated method stub
-        return null;
+    public Object get(final int index) {
+        checkSize(index);
+        return array[index];
+    }
+
+    /**
+     * @param index
+     */
+    protected void checkSize(final int index) {
+        if (index > size) {
+            throw new IndexOutOfBoundsException("index " + index + " is outside of " + (size - 1));
+        }
     }
 
 }

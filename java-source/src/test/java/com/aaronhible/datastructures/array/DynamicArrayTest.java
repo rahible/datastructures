@@ -20,14 +20,52 @@ public class DynamicArrayTest {
 
     }
 
-    @Test
+    @Test(expected = IndexOutOfBoundsException.class)
     public void remove() {
-        final DynamicArray array = buildArray(2);
 
+        final DynamicArray array = buildArray(5);
+
+        // remove the end (param is index NOT value)
+        array.remove(8);
+
+    }
+
+    @Test
+    public void remove_middle() {
+
+        final DynamicArray array = buildArray(5);
+
+        // remove the end (param is index NOT value)
         final Integer removed = (Integer) array.remove(2);
 
+        assertEquals(new Integer(3), removed);
+        assertEquals(4, array.size());
+
+    }
+
+    @Test
+    public void remove_beginning() {
+
+        final DynamicArray array = buildArray(5);
+
+        // remove the end (param is index NOT value)
+        final Integer removed = (Integer) array.remove(0);
+
+        assertEquals(new Integer(1), removed);
+        assertEquals(4, array.size());
+
+    }
+
+    @Test
+    public void remove_end() {
+
+        final DynamicArray array = buildArray(2);
+
+        // remove the end (param is index NOT value)
+        final Integer removed = (Integer) array.remove(1);
+
         assertEquals(new Integer(2), removed);
-        assertEquals(2, array.size());
+        assertEquals(1, array.size());
 
     }
 
@@ -47,12 +85,12 @@ public class DynamicArrayTest {
         final DynamicArray array = buildArray(3);
 
         // grab the first element
-        final Integer first = array.get(0);
+        final Integer first = (Integer) array.get(0);
         // should be 1
         assertEquals(new Integer(1), first);
 
         // grab the last element (zero based)
-        final Integer last = array.get(array.size() - 1);
+        final Integer last = (Integer) array.get(array.size() - 1);
         // should be 3
         assertEquals(new Integer(3), last);
 
