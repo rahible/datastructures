@@ -84,7 +84,7 @@ public class DynamicArray {
 
     /**
      * The complexity of removal is O(n) because when we remove the element, the other elements must be moved left to
-     * fill in the empty space. The definition of an array include contigeous elements, so no empty spots are allowed.
+     * fill in the empty space. The definition of an array include contiguous elements, so no empty spots are allowed.
      *
      * @param i
      * @return

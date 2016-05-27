@@ -27,8 +27,7 @@ public abstract class AbstractLinkedList<T> {
      * @return
      */
     private Element<T> add(final Element<T> previous, final T object) {
-        Element<T> element;
-        element = new Element<T>(object);
+        final Element<T> element = new Element<T>(object);
         if (head == null) {
             head = element;
         }
