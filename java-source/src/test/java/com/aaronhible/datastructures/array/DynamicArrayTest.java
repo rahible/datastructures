@@ -2,6 +2,8 @@ package com.aaronhible.datastructures.array;
 
 import static org.junit.Assert.assertEquals;
 
+import java.util.ArrayList;
+
 import org.junit.Test;
 
 public class DynamicArrayTest {
@@ -53,6 +55,46 @@ public class DynamicArrayTest {
 
         assertEquals(new Integer(1), removed);
         assertEquals(4, array.size());
+
+    }
+
+    @Test
+    public void arrayListRemove() {
+
+        final ArrayList<Integer> array = new ArrayList<Integer>();
+        for (int i = 1; i <= 5; i++) {
+            array.add(i);
+        }
+
+        // remove the end (param is index NOT value)
+        final Integer removedFirst = array.remove(0);
+
+        assertEquals(new Integer(1), removedFirst);
+        assertEquals(4, array.size());
+
+        // remove the end (param is index NOT value)
+        final Integer removedSecond = array.remove(0);
+
+        assertEquals(new Integer(2), removedSecond);
+        assertEquals(3, array.size());
+    }
+
+    @Test
+    public void remove_again() {
+
+        final DynamicArray array = buildArray(5);
+
+        // remove the end (param is index NOT value)
+        final Integer removedFirst = (Integer) array.remove(0);
+
+        assertEquals(new Integer(1), removedFirst);
+        assertEquals(4, array.size());
+
+        // remove the end (param is index NOT value)
+        final Integer removedSecond = (Integer) array.remove(0);
+
+        assertEquals(new Integer(2), removedSecond);
+        assertEquals(3, array.size());
 
     }
 
