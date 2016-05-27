@@ -12,8 +12,7 @@ public class DynamicArray {
 
     public void add(final Object value) {
         resize();
-        array[size] = value;
-        size++;
+        array[size++] = value;
     }
 
     /**
