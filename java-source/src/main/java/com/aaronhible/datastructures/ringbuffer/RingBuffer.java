@@ -132,6 +132,51 @@ public class RingBuffer {
      * @return
      */
     public boolean contains(final Object element) {
+
+        // if size is zero we return false (fail fast)
+        if (size() == 0) {
+            return false;
+        }
+
+        // 3 conditions:
+        // 1) write > read which isn't full but doesn't cross boundary
+        // 2) write == read which is full, so traverse from 0 to length
+        // 3) write < read boundary so search 2 arrays
+        if (write > read) {
+            int start = read;
+            final int end = (write == read) ? buffer.length : write;
+            for (; start < end; start++) {
+                final Object test = buffer[start];
+                // null guard, test "shouldn't" be null
+                if (test != null && (element == test || element.equals(test))) {
+                    return true;
+                }
+            }
+        } else if (full) {
+            for (final Object test : buffer) {
+                // null guard, test "shouldn't" be null
+                if (test != null && (element == test || element.equals(test))) {
+                    return true;
+                }
+            }
+        } else {
+            for (int index = 0; index < write; index++) {
+                final Object test = buffer[index];
+                // null guard, test "shouldn't" be null
+                if (test != null && (element == test || element.equals(test))) {
+                    return true;
+                }
+            }
+            // not found in the first half trying the second
+            for (int index = read; index < buffer.length; index++) {
+                final Object test = buffer[index];
+                // null guard, test "shouldn't" be null
+                if (test != null && (element == test || element.equals(test))) {
+                    return true;
+                }
+            }
+        }
+
         return false;
     }
 }
