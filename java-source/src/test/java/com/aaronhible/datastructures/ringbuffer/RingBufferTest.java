@@ -27,17 +27,23 @@ public class RingBufferTest {
     @Test
     public void add() {
         final RingBuffer buffer = new RingBuffer(3);
-        final String first = RandomStringUtils.randomAlphabetic(5);
-        final String second = RandomStringUtils.randomAlphabetic(5);
-        final String third = RandomStringUtils.randomAlphabetic(5);
-        final String fourth = RandomStringUtils.randomAlphabetic(5);
-        final String fifth = RandomStringUtils.randomAlphabetic(5);
+        // final String first = RandomStringUtils.randomAlphabetic(5);
+        // final String second = RandomStringUtils.randomAlphabetic(5);
+        // final String third = RandomStringUtils.randomAlphabetic(5);
+        // final String fourth = RandomStringUtils.randomAlphabetic(5);
+        // final String fifth = RandomStringUtils.randomAlphabetic(5);
+        final String first = "A";
+        final String second = "B";
+        final String third = "C";
+        final String fourth = "D";
+        final String fifth = "E";
         buffer.add(first);
         buffer.add(second);
         buffer.add(third);
-        buffer.add(fourth);
-        buffer.add(fifth);
+        buffer.add(fourth);// replaces first
+        buffer.add(fifth);// replaces second
 
+        // third should now be the oldest
         final String value = (String) buffer.get();
         assertEquals(third, value);
     }
@@ -84,7 +90,8 @@ public class RingBufferTest {
 
         buffer.add(fourth);
         assertEquals(fourth, buffer.remove());
-        assertEquals(null, buffer.remove());
+        final String removed = (String) buffer.remove();
+        assertEquals(null, removed);
     }
 
     @Test
