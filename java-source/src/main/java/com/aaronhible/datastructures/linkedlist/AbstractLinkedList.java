@@ -7,20 +7,23 @@ public abstract class AbstractLinkedList<T> {
     int size = 0;
 
     public void add(final T object) {
-        add(head, null, object);
+        // because we have tail, we do not need to recursively find the
+        // end of the list to add the object.
+        add(tail, object);
+        // add(head, null, object);
     }
 
     /**
      * @param element
      * @param object
      */
-    private void add(Element<T> element, final Element<T> previous, final T object) {
-        if (element == null) {
-            element = add(previous, object);
-            return;
-        }
-        add(element.getNext(), element, object);
-    }
+    // private void add(Element<T> element, final Element<T> previous, final T object) {
+    // if (element == null) {
+    // element = add(previous, object);
+    // return;
+    // }
+    // add(element.getNext(), element, object);
+    // }
 
     /**
      * @param previous
