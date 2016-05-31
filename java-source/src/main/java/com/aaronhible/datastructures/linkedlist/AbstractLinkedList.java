@@ -3,6 +3,7 @@ package com.aaronhible.datastructures.linkedlist;
 public abstract class AbstractLinkedList<T> {
 
     Element<T> head;
+    Element<T> tail;
     int size = 0;
 
     public void add(final T object) {
@@ -34,6 +35,7 @@ public abstract class AbstractLinkedList<T> {
         if (previous != null) {
             setLink(previous, element);
         }
+        tail = element;
         size++;
         return element;
     }
@@ -158,4 +160,18 @@ public abstract class AbstractLinkedList<T> {
     }
 
     protected abstract void setLink(final Element<T> previous, Element<T> element);
+
+    /**
+     * @return
+     */
+    public T first() {
+        return (head != null) ? head.getValue() : null;
+    }
+
+    /**
+     * @return
+     */
+    public T last() {
+        return tail.getValue();
+    }
 }

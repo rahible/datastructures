@@ -37,4 +37,5 @@ public class DoublyLinkedList<T> extends AbstractLinkedList<T> {
 
         return previous(element.getNext(), value);
     }
+
 }

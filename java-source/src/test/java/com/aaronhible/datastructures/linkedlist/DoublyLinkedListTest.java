@@ -4,8 +4,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
 
-import com.aaronhible.datastructures.linkedlist.DoublyLinkedList;
-
 import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.Test;
 
@@ -65,4 +63,51 @@ public class DoublyLinkedListTest {
         assertEquals(third, linkedList.previous(last));
 
     }
+
+    @Test
+    public void traverse() {
+        final AbstractLinkedList<String> linkedList = new DoublyLinkedList<>();
+        final String first = RandomStringUtils.randomAlphanumeric(10);
+        final String third = RandomStringUtils.randomAlphanumeric(10);
+        final String second = RandomStringUtils.randomAlphanumeric(10);
+        final String last = RandomStringUtils.randomAlphanumeric(10);
+
+        linkedList.add(first);
+        linkedList.add(second);
+        linkedList.add(third);
+        linkedList.add(last);
+
+        final String firstInList = linkedList.first();
+        String next = linkedList.next(firstInList);
+        assertEquals(second, next);
+        next = linkedList.next(next);
+        assertEquals(third, next);
+        next = linkedList.next(next);
+        assertEquals(last, next);
+
+    }
+
+    @Test
+    public void traverse_reverse() {
+        final DoublyLinkedList<String> linkedList = new DoublyLinkedList<>();
+        final String first = RandomStringUtils.randomAlphanumeric(10);
+        final String third = RandomStringUtils.randomAlphanumeric(10);
+        final String second = RandomStringUtils.randomAlphanumeric(10);
+        final String last = RandomStringUtils.randomAlphanumeric(10);
+
+        linkedList.add(first);
+        linkedList.add(second);
+        linkedList.add(third);
+        linkedList.add(last);
+
+        final String lastInList = linkedList.last();
+        String previous = linkedList.previous(lastInList);
+        assertEquals(third, previous);
+        previous = linkedList.previous(previous);
+        assertEquals(second, previous);
+        previous = linkedList.previous(previous);
+        assertEquals(first, previous);
+
+    }
+
 }
