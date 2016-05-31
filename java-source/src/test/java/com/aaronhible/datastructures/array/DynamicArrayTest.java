@@ -10,7 +10,7 @@ public class DynamicArrayTest {
 
     @Test
     public void add() {
-        final DynamicArray array = buildArray(2);
+        final DynamicArray<Integer> array = buildArray(2);
 
         assertEquals(2, array.size());
 
@@ -24,7 +24,7 @@ public class DynamicArrayTest {
 
     @Test
     public void add_beginning() {
-        final DynamicArray array = buildArray(5);
+        final DynamicArray<Integer> array = buildArray(5);
         array.add(0, 20);
 
         assertEquals(6, array.size());
@@ -36,7 +36,7 @@ public class DynamicArrayTest {
 
     @Test
     public void add_middle() {
-        final DynamicArray array = buildArray(5);
+        final DynamicArray<Integer> array = buildArray(5);
         array.add(2, 20);
 
         assertEquals(6, array.size());
@@ -48,7 +48,7 @@ public class DynamicArrayTest {
 
     @Test
     public void add_endExpansion() {
-        final DynamicArray array = buildArray(2);
+        final DynamicArray<Integer> array = buildArray(2);
         array.add(1, 20);
 
         assertEquals(3, array.size());
@@ -62,7 +62,7 @@ public class DynamicArrayTest {
     @Test(expected = IndexOutOfBoundsException.class)
     public void remove() {
 
-        final DynamicArray array = buildArray(5);
+        final DynamicArray<Integer> array = buildArray(5);
 
         // remove the end (param is index NOT value)
         array.remove(8);
@@ -72,10 +72,10 @@ public class DynamicArrayTest {
     @Test
     public void remove_middle() {
 
-        final DynamicArray array = buildArray(5);
+        final DynamicArray<Integer> array = buildArray(5);
 
         // remove the end (param is index NOT value)
-        final Integer removed = (Integer) array.remove(2);
+        final Integer removed = array.remove(2);
 
         assertEquals(new Integer(3), removed);
         assertEquals(4, array.size());
@@ -85,10 +85,10 @@ public class DynamicArrayTest {
     @Test
     public void remove_beginning() {
 
-        final DynamicArray array = buildArray(5);
+        final DynamicArray<Integer> array = buildArray(5);
 
         // remove the end (param is index NOT value)
-        final Integer removed = (Integer) array.remove(0);
+        final Integer removed = array.remove(0);
 
         assertEquals(new Integer(1), removed);
         assertEquals(4, array.size());
@@ -119,16 +119,16 @@ public class DynamicArrayTest {
     @Test
     public void remove_again() {
 
-        final DynamicArray array = buildArray(5);
+        final DynamicArray<Integer> array = buildArray(5);
 
         // remove the end (param is index NOT value)
-        final Integer removedFirst = (Integer) array.remove(0);
+        final Integer removedFirst = array.remove(0);
 
         assertEquals(new Integer(1), removedFirst);
         assertEquals(4, array.size());
 
         // remove the end (param is index NOT value)
-        final Integer removedSecond = (Integer) array.remove(0);
+        final Integer removedSecond = array.remove(0);
 
         assertEquals(new Integer(2), removedSecond);
         assertEquals(3, array.size());
@@ -138,10 +138,10 @@ public class DynamicArrayTest {
     @Test
     public void remove_end() {
 
-        final DynamicArray array = buildArray(2);
+        final DynamicArray<Integer> array = buildArray(2);
 
         // remove the end (param is index NOT value)
-        final Integer removed = (Integer) array.remove(1);
+        final Integer removed = array.remove(1);
 
         assertEquals(new Integer(2), removed);
         assertEquals(1, array.size());
@@ -151,8 +151,8 @@ public class DynamicArrayTest {
     /**
      * @return
      */
-    protected DynamicArray buildArray(final int size) {
-        final DynamicArray array = new DynamicArray(size);
+    protected DynamicArray<Integer> buildArray(final int size) {
+        final DynamicArray<Integer> array = new DynamicArray<>(size);
         for (int index = 1; index <= size; index++) {
             array.add(index);
         }
@@ -161,7 +161,7 @@ public class DynamicArrayTest {
 
     @Test
     public void get() {
-        final DynamicArray array = buildArray(3);
+        final DynamicArray<Integer> array = buildArray(3);
 
         // grab the first element
         final Integer first = (Integer) array.get(0);

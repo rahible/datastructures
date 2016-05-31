@@ -1,13 +1,14 @@
 package com.aaronhible.datastructures.array;
 
-public class DynamicArray {
+public class DynamicArray<T> {
 
-    private Object[] array;
+    private T[] array;
 
     private int size;
 
+    @SuppressWarnings("unchecked")
     public DynamicArray(final int capacity) {
-        array = new Object[capacity];
+        array = (T[]) new Object[capacity];
     }
 
     /**
@@ -18,7 +19,7 @@ public class DynamicArray {
      *
      * @param value
      */
-    public void add(final Object value) {
+    public void add(final T value) {
         expansion();
         array[size++] = value;
     }
@@ -30,7 +31,7 @@ public class DynamicArray {
      * @param index
      * @param value
      */
-    public void add(final int index, final Object value) {
+    public void add(final int index, final T value) {
         expansion();
         copyRight(index);
         array[index] = value;
@@ -54,7 +55,7 @@ public class DynamicArray {
      */
     private void expansion() {
         if (isExpansionNeeded()) {
-            final Object[] newArray = resizeAndCopy();
+            final T[] newArray = resizeAndCopy();
             this.array = newArray;
         }
     }
@@ -70,8 +71,9 @@ public class DynamicArray {
     /**
      * @param newArray
      */
-    private Object[] resizeAndCopy() {
-        final Object[] newArray = new Object[array.length * 2];
+    private T[] resizeAndCopy() {
+        @SuppressWarnings("unchecked")
+        final T[] newArray = (T[]) new Object[array.length * 2];
         for (int index = 0; index < array.length; index++) {
             newArray[index] = array[index];
         }
@@ -89,9 +91,9 @@ public class DynamicArray {
      * @param i
      * @return
      */
-    public Object remove(final int index) {
+    public T remove(final int index) {
         checkSize(index);
-        final Object removal = array[index];
+        final T removal = array[index];
         if (removal != null) {
             contraction(index);
             // ensure that the last one is null so that the last element isn't repeated
