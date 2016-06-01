@@ -1,6 +1,8 @@
-package com.aaronhible.datastructures.array;
+package com.aaronhible.datastructures.list;
 
 import static org.junit.Assert.assertEquals;
+
+import com.aaronhible.datastructures.list.DynamicArray;
 
 import java.util.ArrayList;
 

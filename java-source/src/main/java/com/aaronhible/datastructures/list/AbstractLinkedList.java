@@ -1,4 +1,4 @@
-package com.aaronhible.datastructures.linkedlist;
+package com.aaronhible.datastructures.list;
 
 public abstract class AbstractLinkedList<T> {
 

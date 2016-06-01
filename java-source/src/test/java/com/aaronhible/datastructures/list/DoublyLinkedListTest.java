@@ -1,8 +1,11 @@
-package com.aaronhible.datastructures.linkedlist;
+package com.aaronhible.datastructures.list;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
+
+import com.aaronhible.datastructures.list.AbstractLinkedList;
+import com.aaronhible.datastructures.list.DoublyLinkedList;
 
 import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.Test;

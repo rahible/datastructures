@@ -1,4 +1,4 @@
-package com.aaronhible.datastructures.array;
+package com.aaronhible.datastructures.list;
 
 public class DynamicArray<T> {
 

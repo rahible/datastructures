@@ -1,4 +1,4 @@
-package com.aaronhible.datastructures.linkedlist;
+package com.aaronhible.datastructures.list;
 
 public class SinglyLinkedList<T> extends AbstractLinkedList<T> {
     @Override

@@ -1,4 +1,4 @@
-package com.aaronhible.datastructures.ringbuffer;
+package com.aaronhible.datastructures.list;
 
 public class RingBuffer {
     // index of the read (first) item
