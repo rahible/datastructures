@@ -27,6 +27,21 @@ public class HashTableTest {
     }
 
     @Test
+    public void add_bigRandom() {
+        final int size = 10000;
+        final HashTable hashTable = new HashTable(size);
+
+        // we expect collisions
+        for (int loop = 0; loop < size; loop++) {
+            final String key = RandomStringUtils.random(5);
+            final String value = RandomStringUtils.random(5);
+            hashTable.add(key, value);
+        }
+
+        assertEquals(size, hashTable.size());
+    }
+
+    @Test
     public void remove() {
 
         final HashTable hashTable = new HashTable();
@@ -37,6 +52,7 @@ public class HashTableTest {
 
         hashTable.remove(second);
 
+        assertEquals(1, hashTable.size());
         assertFalse(hashTable.contains(second));
         assertTrue(hashTable.contains(first));
     }
@@ -49,6 +65,38 @@ public class HashTableTest {
         assertFalse(hashTable.contains(first));
         hashTable.add(first, RandomStringUtils.random(5));
         assertTrue(hashTable.contains(first));
+
+    }
+
+    @Test
+    public void isValuesEqual() {
+        final HashTable hashTable = new HashTable();
+
+        // same reference
+        Integer one = new Integer(1);
+        Integer two = one;
+        assertTrue(hashTable.isValuesEqual(one, two));
+
+        // same value
+        final String random = RandomStringUtils.random(3);
+        // must new up string to not have the same reference but same value
+        final String first = new String(random);
+        final String second = new String(random);
+        assertTrue(hashTable.isValuesEqual(first, second));
+
+        // both null
+        assertTrue(hashTable.isValuesEqual(null, null));
+
+        // lhs is null
+        assertFalse(hashTable.isValuesEqual(null, random));
+
+        // rhs is null
+        assertFalse(hashTable.isValuesEqual(random, null));
+
+        // unequal value
+        one = new Integer(1);
+        two = new Integer(2);
+        assertFalse(hashTable.isValuesEqual(one, two));
 
     }
 
@@ -155,4 +203,5 @@ public class HashTableTest {
         }
         return notNull;
     }
+
 }
