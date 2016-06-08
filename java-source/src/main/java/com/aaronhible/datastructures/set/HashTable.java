@@ -66,8 +66,45 @@ public class HashTable {
         return size;
     }
 
-    public void remove(final Object key) {
+    public Object remove(final Object key) {
+        final int hash = this.hash(key, bucketCapacity);
+        final int index = this.index(hash, bucketCapacity);
+        return removeEntry(index, key);
+    }
 
+    /**
+     * @param index
+     * @param key
+     */
+    private Object removeEntry(final int index, final Object key) {
+        final Entry entry = buckets[index];
+        // there is no entry fast return
+        if (entry == null) {
+            return null;
+        }
+
+        // the entry matches, but there is no chaining empty the bucket and return the value
+        if (isValuesEqual(entry.getKey(), key) && entry.next == null) {
+            buckets[index] = null;
+            size--;
+            return entry.getValue();
+        }
+
+        // go through the chain and remove / splice the chain if key is found
+        return removeEntry(entry.next, entry, key);
+    }
+
+    private Object removeEntry(final Entry current, final Entry previous, final Object key) {
+        // found
+        if (isValuesEqual(current.getKey(), key)) {
+            // point the previous one to the next->next one.
+            previous.next = current.next;
+            // remove reference for GC
+            current.next = null;
+            size--;
+            return current.getValue();
+        }
+        return removeEntry(current.next, current, key);
     }
 
     public boolean contains(final Object key) {
@@ -116,8 +153,8 @@ public class HashTable {
      * My non-scientific test (see test case) shows that out of 10000 buckets and 10000 random strings, only about 260
      * buckets will be used. Perfect Hash only works when you know the keys ahead of time.
      */
-    int hash(final Object object, final int capacity) {
-        return object.hashCode() % capacity;
+    int hash(final Object key, final int capacity) {
+        return key.hashCode() % capacity;
     }
 
     /**

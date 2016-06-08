@@ -46,12 +46,15 @@ public class HashTableTest {
 
         final HashTable hashTable = new HashTable();
         final String first = RandomStringUtils.random(5);
+        final String firstValue = RandomStringUtils.random(5);
         final String second = RandomStringUtils.random(5);
-        hashTable.add(first, RandomStringUtils.random(5));
-        hashTable.add(second, RandomStringUtils.random(5));
+        final String secondValue = RandomStringUtils.random(5);
+        hashTable.add(first, firstValue);
+        hashTable.add(second, secondValue);
 
-        hashTable.remove(second);
+        final String removed = (String) hashTable.remove(second);
 
+        assertEquals(secondValue, removed);
         assertEquals(1, hashTable.size());
         assertFalse(hashTable.contains(second));
         assertTrue(hashTable.contains(first));
