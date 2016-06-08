@@ -2,7 +2,11 @@ package com.aaronhible.datastructures.set;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
+
+import java.util.HashSet;
+import java.util.Set;
 
 import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.Test;
@@ -39,6 +43,31 @@ public class HashTableTest {
         }
 
         assertEquals(size, hashTable.size());
+    }
+
+    @Test
+    public void remove_bigRandom() {
+        // add a bunch
+        final int size = 10000;
+        final HashTable hashTable = new HashTable(size);
+        final Set<String> stateSet = new HashSet<>();
+
+        // we expect collisions
+        for (int loop = 0; loop < size; loop++) {
+            final String key = RandomStringUtils.random(5);
+            stateSet.add(key);
+            final String value = RandomStringUtils.random(5);
+            hashTable.add(key, value);
+        }
+
+        assertEquals(size, hashTable.size());
+
+        int expectedSize = size;
+        for (final String key : stateSet) {
+            final Object removed = hashTable.remove(key);
+            assertNotNull(removed);
+            assertEquals(expectedSize--, hashTable.size());
+        }
     }
 
     @Test
