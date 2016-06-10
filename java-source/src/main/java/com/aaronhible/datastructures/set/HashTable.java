@@ -15,16 +15,19 @@ public class HashTable {
         buckets = new Entry[bucketCapacity];
     }
 
-    public void add(Entry entry, final int hash, final Object key, final Object value) {
+    public void add(final Entry previous, Entry entry, final int hash, final Object key, final Object value) {
         if (entry == null) {
             entry = buildNewEntry(hash, key, value);
+            if (previous != null) {
+                previous.next = entry;
+            }
             return;
         }
         if (entry.getKey() == key || entry.getKey().equals(key)) {
             entry.value = value;
             return;
         }
-        add(entry.next, hash, key, value);
+        add(entry, entry.next, hash, key, value);
     }
 
     public void add(final Object key, final Object value) {
@@ -39,7 +42,7 @@ public class HashTable {
             buckets[index] = buildNewEntry(hash, key, value);
             return;
         }
-        add(entry, hash, key, value);
+        add(null, entry, hash, key, value);
     }
 
     boolean isValuesEqual(final Object lhs, final Object rhs) {
@@ -84,8 +87,9 @@ public class HashTable {
         }
 
         // the entry matches, but there is no chaining empty the bucket and return the value
-        if (isValuesEqual(entry.getKey(), key) && entry.next == null) {
-            buckets[index] = null;
+        if (isValuesEqual(entry.getKey(), key)) {
+            // next goes into the bucket
+            buckets[index] = entry.next;
             size--;
             return entry.getValue();
         }
@@ -95,7 +99,10 @@ public class HashTable {
     }
 
     private Object removeEntry(final Entry current, final Entry previous, final Object key) {
-        // found
+        // not found
+        if (current == null) {
+            return null; // break here
+        }
         if (isValuesEqual(current.getKey(), key)) {
             // point the previous one to the next->next one.
             previous.next = current.next;

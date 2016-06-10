@@ -66,7 +66,7 @@ public class HashTableTest {
         for (final String key : stateSet) {
             final Object removed = hashTable.remove(key);
             assertNotNull(removed);
-            assertEquals(expectedSize--, hashTable.size());
+            assertEquals(--expectedSize, hashTable.size());
         }
     }
 
