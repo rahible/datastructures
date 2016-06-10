@@ -17,21 +17,6 @@ public class HashTable<K, V> {
         buckets = new Entry[bucketCapacity];
     }
 
-    private void add(final Entry<K, V> previous, Entry<K, V> entry, final int hash, final K key, final V value) {
-        if (entry == null) {
-            entry = buildNewEntry(hash, key, value);
-            if (previous != null) {
-                previous.next = entry;
-            }
-            return;
-        }
-        if (entry.getKey() == key || entry.getKey().equals(key)) {
-            entry.value = value;
-            return;
-        }
-        add(entry, entry.next, hash, key, value);
-    }
-
     /**
      * Looking at the createEntry of Java's HashMap implementation, I thought that the adding would be less complex if I
      * implemented the same solution. However, tracing the usages up to put, shows that Java's put on HashMap iterates
@@ -52,10 +37,25 @@ public class HashTable<K, V> {
         final Entry<K, V> entry = buckets[index];
         // if null add it
         if (entry == null) {
-            buckets[index] = buildNewEntry(hash, key, value);
+            buckets[index] = buildNewEntry(key, value);
             return;
         }
-        add(null, entry, hash, key, value);
+        add(null, entry, key, value);
+    }
+
+    private void add(final Entry<K, V> previous, Entry<K, V> entry, final K key, final V value) {
+        if (entry == null) {
+            entry = buildNewEntry(key, value);
+            if (previous != null) {
+                previous.next = entry;
+            }
+            return;
+        }
+        if (isValuesEqual(entry.getKey(), key)) {
+            entry.value = value;
+            return;
+        }
+        add(entry, entry.next, key, value);
     }
 
     boolean isValuesEqual(final K lhs, final K rhs) {
@@ -72,8 +72,8 @@ public class HashTable<K, V> {
      * @param value
      * @return
      */
-    private Entry<K, V> buildNewEntry(final int hash, final K key, final V value) {
-        final Entry<K, V> entry = new Entry<>(hash, key, value);
+    private Entry<K, V> buildNewEntry(final K key, final V value) {
+        final Entry<K, V> entry = new Entry<>(key, value);
         size++;
         return entry;
     }

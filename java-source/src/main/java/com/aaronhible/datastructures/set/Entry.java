@@ -1,22 +1,13 @@
 package com.aaronhible.datastructures.set;
 
 class Entry<K, V> {
-    int hash;
     K key;
     V value;
     Entry<K, V> next;
 
-    public Entry(final int hash, final K key, final V value) {
-        this.hash = hash;
+    public Entry(final K key, final V value) {
         this.key = key;
         this.value = value;
-    }
-
-    /**
-     * @return the hash
-     */
-    public int getHash() {
-        return hash;
     }
 
     /**
