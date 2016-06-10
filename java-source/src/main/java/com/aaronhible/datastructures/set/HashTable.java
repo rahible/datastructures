@@ -1,21 +1,23 @@
 package com.aaronhible.datastructures.set;
 
-public class HashTable {
+public class HashTable<K, V> {
 
     private int bucketCapacity = 100;
     private int size;
-    private final Entry[] buckets;
+    private final Entry<K, V>[] buckets;
 
+    @SuppressWarnings("unchecked")
     public HashTable() {
         buckets = new Entry[bucketCapacity];
     }
 
+    @SuppressWarnings("unchecked")
     public HashTable(final int capacity) {
         bucketCapacity = capacity;
         buckets = new Entry[bucketCapacity];
     }
 
-    public void add(final Entry previous, Entry entry, final int hash, final Object key, final Object value) {
+    private void add(final Entry<K, V> previous, Entry<K, V> entry, final int hash, final K key, final V value) {
         if (entry == null) {
             entry = buildNewEntry(hash, key, value);
             if (previous != null) {
@@ -30,13 +32,13 @@ public class HashTable {
         add(entry, entry.next, hash, key, value);
     }
 
-    public void add(final Object key, final Object value) {
+    public void add(final K key, final V value) {
         // hash the key
         final int hash = this.hash(key, bucketCapacity);
         // get the index
         final int index = this.index(hash, bucketCapacity);
         // get the object out of the bucket
-        final Entry entry = buckets[index];
+        final Entry<K, V> entry = buckets[index];
         // if null add it
         if (entry == null) {
             buckets[index] = buildNewEntry(hash, key, value);
@@ -59,8 +61,8 @@ public class HashTable {
      * @param value
      * @return
      */
-    private Entry buildNewEntry(final int hash, final Object key, final Object value) {
-        final Entry entry = new Entry(hash, key, value);
+    private Entry<K, V> buildNewEntry(final int hash, final K key, final V value) {
+        final Entry<K, V> entry = new Entry<>(hash, key, value);
         size++;
         return entry;
     }
@@ -69,7 +71,7 @@ public class HashTable {
         return size;
     }
 
-    public Object remove(final Object key) {
+    public Object remove(final K key) {
         final int hash = this.hash(key, bucketCapacity);
         final int index = this.index(hash, bucketCapacity);
         return removeEntry(index, key);
@@ -79,8 +81,8 @@ public class HashTable {
      * @param index
      * @param key
      */
-    private Object removeEntry(final int index, final Object key) {
-        final Entry entry = buckets[index];
+    private Object removeEntry(final int index, final K key) {
+        final Entry<K, V> entry = buckets[index];
         // there is no entry fast return
         if (entry == null) {
             return null;
@@ -98,7 +100,7 @@ public class HashTable {
         return removeEntry(entry.next, entry, key);
     }
 
-    private Object removeEntry(final Entry current, final Entry previous, final Object key) {
+    private Object removeEntry(final Entry<K, V> current, final Entry<K, V> previous, final Object key) {
         // not found
         if (current == null) {
             return null; // break here
@@ -114,18 +116,18 @@ public class HashTable {
         return removeEntry(current.next, current, key);
     }
 
-    public boolean contains(final Object key) {
+    public boolean contains(final K key) {
         final int hash = this.hash(key, bucketCapacity);
         final int index = this.index(hash, bucketCapacity);
-        final Entry entry = getEntry(index, key);
+        final Entry<K, V> entry = getEntry(index, key);
         return (entry != null);
 
     }
 
-    public Object get(final Object key) {
+    public V get(final K key) {
         final int hash = this.hash(key, bucketCapacity);
         final int index = this.index(hash, bucketCapacity);
-        final Entry entry = getEntry(index, key);
+        final Entry<K, V> entry = getEntry(index, key);
         return (entry == null) ? null : entry.getValue();
     }
 
@@ -133,7 +135,7 @@ public class HashTable {
      * @param index
      * @return
      */
-    private Entry getEntry(final int index, final Object key) {
+    private Entry<K, V> getEntry(final int index, final K key) {
         return getEntry(this.buckets[index], key);
     }
 
@@ -142,7 +144,7 @@ public class HashTable {
      * @param key
      * @return
      */
-    private Entry getEntry(final Entry entry, final Object key) {
+    private Entry<K, V> getEntry(final Entry<K, V> entry, final K key) {
         if (entry == null) {
             return null;
         }
@@ -160,7 +162,7 @@ public class HashTable {
      * My non-scientific test (see test case) shows that out of 10000 buckets and 10000 random strings, only about 260
      * buckets will be used. Perfect Hash only works when you know the keys ahead of time.
      */
-    int hash(final Object key, final int capacity) {
+    int hash(final K key, final int capacity) {
         return key.hashCode() % capacity;
     }
 

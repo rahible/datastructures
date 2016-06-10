@@ -1,12 +1,12 @@
 package com.aaronhible.datastructures.set;
 
-class Entry {
+class Entry<K, V> {
     int hash;
-    Object key;
-    Object value;
-    Entry next;
+    K key;
+    V value;
+    Entry<K, V> next;
 
-    public Entry(final int hash, final Object key, final Object value) {
+    public Entry(final int hash, final K key, final V value) {
         this.hash = hash;
         this.key = key;
         this.value = value;
@@ -22,14 +22,14 @@ class Entry {
     /**
      * @return the key
      */
-    public Object getKey() {
+    public K getKey() {
         return key;
     }
 
     /**
      * @return the value
      */
-    public Object getValue() {
+    public V getValue() {
         return value;
     }
 

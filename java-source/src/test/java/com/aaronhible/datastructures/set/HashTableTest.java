@@ -15,7 +15,7 @@ public class HashTableTest {
 
     @Test
     public void add() {
-        final HashTable hashTable = new HashTable();
+        final HashTable<String, String> hashTable = new HashTable<>();
         final String first = RandomStringUtils.random(5);
         final String second = RandomStringUtils.random(5);
 
@@ -33,7 +33,7 @@ public class HashTableTest {
     @Test
     public void add_bigRandom() {
         final int size = 10000;
-        final HashTable hashTable = new HashTable(size);
+        final HashTable<String, String> hashTable = new HashTable<>(size);
 
         // we expect collisions
         for (int loop = 0; loop < size; loop++) {
@@ -49,7 +49,7 @@ public class HashTableTest {
     public void remove_bigRandom() {
         // add a bunch
         final int size = 10000;
-        final HashTable hashTable = new HashTable(size);
+        final HashTable<String, String> hashTable = new HashTable<>(size);
         final Set<String> stateSet = new HashSet<>();
 
         // we expect collisions
@@ -73,7 +73,7 @@ public class HashTableTest {
     @Test
     public void remove() {
 
-        final HashTable hashTable = new HashTable();
+        final HashTable<String, String> hashTable = new HashTable<>();
         final String first = RandomStringUtils.random(5);
         final String firstValue = RandomStringUtils.random(5);
         final String second = RandomStringUtils.random(5);
@@ -91,7 +91,7 @@ public class HashTableTest {
 
     @Test
     public void contains() {
-        final HashTable hashTable = new HashTable();
+        final HashTable<String, String> hashTable = new HashTable<>();
         final String first = RandomStringUtils.random(5);
 
         assertFalse(hashTable.contains(first));
@@ -102,7 +102,7 @@ public class HashTableTest {
 
     @Test
     public void isValuesEqual() {
-        final HashTable hashTable = new HashTable();
+        final HashTable<String, String> hashTable = new HashTable<>();
 
         // same reference
         Integer one = new Integer(1);
@@ -135,7 +135,7 @@ public class HashTableTest {
     @Test
     public void size() {
         final int size = 1000;
-        final HashTable hashTable = new HashTable();
+        final HashTable<Integer, String> hashTable = new HashTable<>();
         for (int integer = 0; integer < size; integer++) {
             hashTable.add(integer, RandomStringUtils.random(5));
         }
@@ -149,7 +149,7 @@ public class HashTableTest {
         final int expectedIndex = 33;
         final String keyToHash = "34";
 
-        final HashTable hashTable = new HashTable();
+        final HashTable<String, String> hashTable = new HashTable<>();
         final int hash = hashTable.hash(keyToHash, capacity);
 
         assertEquals(expectedHash, hash);
@@ -205,7 +205,7 @@ public class HashTableTest {
      */
     @Test
     public void simpleModHash_String() {
-        final HashTable hashTable = new HashTable();
+        final HashTable<String, String> hashTable = new HashTable<>();
         final int size = 10000;
         final Object[] array = new Object[size];
         int collisionCount = 0;
