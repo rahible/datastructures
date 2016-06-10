@@ -102,28 +102,29 @@ public class HashTableTest {
 
     @Test
     public void isValuesEqual() {
-        final HashTable<String, String> hashTable = new HashTable<>();
+        final HashTable<Integer, Integer> hashTable = new HashTable<>();
 
         // same reference
         Integer one = new Integer(1);
         Integer two = one;
         assertTrue(hashTable.isValuesEqual(one, two));
 
+        final HashTable<String, String> stringHashTable = new HashTable<>();
         // same value
         final String random = RandomStringUtils.random(3);
         // must new up string to not have the same reference but same value
         final String first = new String(random);
         final String second = new String(random);
-        assertTrue(hashTable.isValuesEqual(first, second));
+        assertTrue(stringHashTable.isValuesEqual(first, second));
 
         // both null
-        assertTrue(hashTable.isValuesEqual(null, null));
+        assertTrue(stringHashTable.isValuesEqual(null, null));
 
         // lhs is null
-        assertFalse(hashTable.isValuesEqual(null, random));
+        assertFalse(stringHashTable.isValuesEqual(null, random));
 
         // rhs is null
-        assertFalse(hashTable.isValuesEqual(random, null));
+        assertFalse(stringHashTable.isValuesEqual(random, null));
 
         // unequal value
         one = new Integer(1);

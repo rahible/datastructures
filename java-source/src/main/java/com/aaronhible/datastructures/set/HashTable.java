@@ -32,6 +32,17 @@ public class HashTable<K, V> {
         add(entry, entry.next, hash, key, value);
     }
 
+    /**
+     * Looking at the createEntry of Java's HashMap implementation, I thought that the adding would be less complex if I
+     * implemented the same solution. However, tracing the usages up to put, shows that Java's put on HashMap iterates
+     * to find a matching key first and replaces the value. If there is no match it then adds the head. Since I chose
+     * recursion for this method I was able to add first if the bucket is empty and then recursively find the value. The
+     * difference is that this implementation will add to the tail of a chain if that chain is found. Java's
+     * implementation will always replace the head of the chain.
+     *
+     * @param key
+     * @param value
+     */
     public void add(final K key, final V value) {
         // hash the key
         final int hash = this.hash(key, bucketCapacity);
@@ -47,7 +58,7 @@ public class HashTable<K, V> {
         add(null, entry, hash, key, value);
     }
 
-    boolean isValuesEqual(final Object lhs, final Object rhs) {
+    boolean isValuesEqual(final K lhs, final K rhs) {
         // if the references are equal (including null), or the object equals are equal
         if ((lhs == rhs) || ((lhs != null) && lhs.equals(rhs))) {
             return true;
@@ -100,7 +111,7 @@ public class HashTable<K, V> {
         return removeEntry(entry.next, entry, key);
     }
 
-    private Object removeEntry(final Entry<K, V> current, final Entry<K, V> previous, final Object key) {
+    private Object removeEntry(final Entry<K, V> current, final Entry<K, V> previous, final K key) {
         // not found
         if (current == null) {
             return null; // break here
