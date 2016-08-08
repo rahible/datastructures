@@ -46,6 +46,33 @@ public class HashTableTest {
     }
 
     @Test
+    public void get() {
+
+        final HashTable<String, String> hashTable = new HashTable<>();
+
+        final String first = RandomStringUtils.random(5);
+        final String firstValue = RandomStringUtils.random(5);
+        final String second = RandomStringUtils.random(5);
+        final String secondValue = RandomStringUtils.random(5);
+
+        hashTable.add(first, firstValue);
+        hashTable.add(second, secondValue);
+
+        final String expectFirst = hashTable.get(first);
+        assertEquals(firstValue, expectFirst);
+
+        final String expectSecond = hashTable.get(second);
+        assertEquals(secondValue, expectSecond);
+
+        final String anotherValue = RandomStringUtils.random(5);
+        hashTable.add(first, anotherValue);
+
+        final String expectAnother = hashTable.get(first);
+        assertEquals(anotherValue, expectAnother);
+
+    }
+
+    @Test
     public void remove_bigRandom() {
         // add a bunch
         final int size = 10000;
