@@ -1,5 +1,9 @@
 package com.aaronhible.datastructures.heap;
 
+/**
+ * min-heap property implementation of a Binary Heap - where the value of each node is greater than or equal to the
+ * value of its parent, with the minimum-value element at the root.
+ */
 public class BinaryHeap {
 
     private static final int DEFAULT_HEAP_SIZE = 100;
