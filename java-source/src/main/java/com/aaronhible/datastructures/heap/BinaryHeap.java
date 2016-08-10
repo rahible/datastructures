@@ -60,19 +60,51 @@ public class BinaryHeap {
         return size;
     }
 
-    private int getParentIndex(final int k) {
-        return (k - 1) / 2;
-    }
-
-    private int getLeftChildIndex(final int k) {
+    private static int leftChildIndex(final int k) {
         return 2 * k;
     }
 
-    private int getRightChildIndex(final int k) {
+    private static int rightChildIndex(final int k) {
         return 2 * k + 1;
     }
 
     public String deleteMin() {
-        return null;
+        final int rootIndex = 1;
+        // first element (min) is index 1
+        final String rootItem = heap[rootIndex];
+        // replace the root with the last time
+        heap[rootIndex] = heap[size--];
+        // find where in the tree that last item belongs.
+        percolateDown(rootIndex);
+        // return the former root
+        return rootItem;
+    }
+
+    /**
+     * @param rootIndex
+     */
+    private void percolateDown(final int index) {
+        int hole = index;
+        final String tmp = heap[hole];
+        int child;
+        // while we aren't at the end of the tree (child index is less than size)
+        while ((leftChildIndex(hole)) < size) {
+            child = leftChildIndex(hole);
+            // if the sybling is less then the child then use the sybling
+            if ((child != size) && (heap[rightChildIndex(hole)].compareTo(heap[leftChildIndex(hole)]) < 0)) {
+                // move to the right child since it's smaller
+                child++;
+            }
+            // best child has been chosen let us see how it compares to the new parent
+            if (heap[child].compareTo(tmp) < 0) {
+                heap[hole] = heap[child];
+            } else {
+                break;
+            }
+            // the child has now created a hole
+            hole = child;
+        }
+        // fill in the hole with our tmp guy.
+        heap[hole] = tmp;
     }
 }
